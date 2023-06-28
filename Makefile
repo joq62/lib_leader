@@ -35,8 +35,10 @@ eunit:
 #	Application speciic
 #	test 
 	mkdir test_ebin;
+	cp test/*.app test_ebin;
 	erlc -I include -I ../api_repo  -o test_ebin test/*.erl;
 #  	dependencies
+	erlc -o test_ebin ../lib_sd/src/*.erl;
 #	Applications
 	mkdir ebin;		
 	rebar3 compile;	
@@ -44,6 +46,7 @@ eunit:
 	rm -rf _build*;
 #	Application specific
 	erl -pa ebin -pa test_ebin\
+	   -pa ../lib_sd/ebin\
 	    -sname do_test\
 	    -run $(m) start\
 	    -setcookie test_cookie
